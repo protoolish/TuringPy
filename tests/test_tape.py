@@ -1,5 +1,5 @@
 import unittest
-from tape import Tape
+from turingpy.tape import Tape
 
 class TestTape(unittest.TestCase):
     def test_init(self):

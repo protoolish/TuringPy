@@ -1,18 +1,21 @@
+from turingpy.symbol import Symbol, Blank
+
 class Tape:
     """
     A data structure representing a (theoretically) infinite tape for a Turing machine or similar computational model.
     """
 
-    BLANK = " "
+    BLANK = Blank
 
     def __init__(self, tape_string = ""):
         """Initialise the tape with an optional initial string"""
         self._pos = 0
-        self._tape = dict((enumerate(tape_string)))
+        self._tape = dict((enumerate([Symbol.create(c) for c in tape_string])))
+        # self._tape = dict((enumerate(tape_string)))
 
-    def _read_idx(self, idx) -> str:
+    def _read_idx(self, idx) -> Symbol:
         """PROTECTED function to read from specific index on the tape."""
-        return self._tape.get(idx, self.BLANK)
+        return self._tape.get(idx, Blank)
     
     def reset(self):
         """Reset position of tape head to starting index (0)."""
@@ -25,11 +28,11 @@ class Tape:
         else:
             self._pos += 1
     
-    def read(self) -> str:
+    def read(self) -> Symbol:
         """Read the character at the current position."""
         return self._read_idx(self._pos)
     
-    def reads(self, reverse=False) -> str:
+    def reads(self, reverse=False) -> Symbol:
         """Read the character at the current position, then move the tape head.
         - READ equivalent of `writes()`. 
         - To read without moving, use `read()`.
@@ -38,11 +41,14 @@ class Tape:
         self.step(reverse)
         return val
     
-    def write(self, char: str):
+    def write(self, char: str|Symbol):
         """Write a character to the current position."""
-        self._tape[self._pos] = char
+        if char is Blank:
+            del self._tape[self._pos]
+        else:
+            self._tape[self._pos] = Symbol.create(char)
 
-    def writes(self, char: str, reverse=False):
+    def writes(self, char: str|Symbol, reverse=False):
         """Write a character at current position, then move the tape head.
         - WRITE equivalent of `reads()`. 
         - To write without moving, use `write()`.
@@ -75,7 +81,10 @@ class Tape:
             min_idx = self._pos
             max_idx = self._pos
 
-        tape_str = "".join(self._read_idx(i) for i in range(min_idx, max_idx+1))
+        tape_str = "".join(
+            str(self._read_idx(i)) 
+            for i in range(min_idx, max_idx+1)
+        )
 
         offset = self._pos - min_idx
         print(tape_str)
@@ -87,7 +96,12 @@ class Tape:
 
     def __str__(self):
         if not self._tape: return "<empty tape>"
+
         min_idx = min(self._tape.keys())
         max_idx = max(self._tape.keys())
-        return "".join(self._read_idx(i) for i in range(min_idx, max_idx + 1))
+
+        return "".join(
+            str(self._read_idx(i)) 
+            for i in range(min_idx, max_idx + 1)
+        )
     

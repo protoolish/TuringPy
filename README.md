@@ -51,7 +51,7 @@ tape.writes()                     # write symbol at current position, then move 
 ### Extensions 
 The following are a collection of methods that aren't strictly part of the theoretical turing machine but are implemented for syntactic sugar / convenience.
 
-#### Scanning
+### Scanning
 Since many TM algorithms involve things like *"Read symbols from tape until **\<CONDITION\>**"*, 
 I've implemented a method called `scan()` that returns an infinite generator that yields the tapes contents 
 (starting from the current position),
@@ -76,7 +76,7 @@ while True:
 > The `scan` method is implemented as an *infinite generator*, meaning that using in a for loop will continue 
 > indefinitely unless you specify an explicit `break` condition (like the above example).
 
-#### Copying
+### Copying
 
 I've also implemented a `copy()` method that creates a new tape identical to another (including current position).
 I've "cheated" by accessing the inner data structure directly, but a fun(?) exercise is to implement this behaviour using only the primitive operations. (Hint: try doing it without preserving positions first, then think about how you'd save/load the position of a tape)
@@ -92,10 +92,10 @@ print(repr(tape))         # -> Tape("my tape!", 2)
 print(repr(cp))           # -> Tape("my tape!", 2)
 ```
 
-#### Resetting
+### Resetting
 
-Externally, the turing machine doesn't have "indexing" (i.e. you can say "give me the symbol at position `idx`")
-but secretly, this data structure *does* internally keep indexes. This means my implementation of `reset` is cheating again! However, it's entirely possible to implement the exact same behaviour using the primitives (another exercise for masochists).
+Just a very simple method that returns the head to the position it was in when you initialised the object. 
+(another implementation that's "cheating" here, another opportunity for you to implement it yourself!)
 
 ```python
 tape = Tape("abcdefg")
@@ -106,7 +106,6 @@ tape.reads()            # -> "d"
 tape.reset()            # RESET POSITION
 tape.reads()            # -> "a"
 ```
-
 
 ## Example Program - Looking for Duplicate Symbols
 

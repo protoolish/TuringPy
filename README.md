@@ -3,7 +3,26 @@ A tiny python module for prototyping Turing Machine logic in python.
 
 ## Installing
 
-Just clone / download the module, import it, and go!
+Whichever way you install this package, it's recommended you do it in a virtual environment. Create one using,
+
+```sh
+python3 -m venv .env
+source .env/bin/activate
+```
+
+Then (with your venv active) install from github url using pip,
+
+```sh
+pip install -U git+https://github.com/protoolish/TuringPy.git#egg=turingpy
+```
+
+Or you can then clone the repo and run pip install,
+
+```sh
+git clone https://github.com/protoolish/TuringPy.git
+# preferably with a virtualenv active
+pip install TuringPy
+```
 
 ## Writing Code for Turing Machines
 

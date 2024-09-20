@@ -59,6 +59,13 @@ class Tape:
             yield self.read()
             self.step(reverse)
 
+    def copy(self) -> 'Tape':
+        """ Return a copy of this tape, preserving position """
+        cp = Tape()
+        cp._pos = self._pos
+        cp._tape = {k:v for k,v in self._tape.items()}
+        return cp
+
     def pprint(self):
         """ Print a nice representation of the tape contents along with the current head position (as a ^). """
         if self._tape:
